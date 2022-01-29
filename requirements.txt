@@ -1,0 +1,6 @@
+keras
+creme
+imutils
+tensorflow
+scikit-learn
+opencv-python
