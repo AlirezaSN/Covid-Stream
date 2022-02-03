@@ -5,7 +5,7 @@ from creme.linear_model import LogisticRegression
 from creme.multiclass import OneVsRestClassifier
 from creme.preprocessing import StandardScaler
 from creme.compose import Pipeline
-from creme.metrics import Accuracy
+from creme.metrics import Accuracy, Precision, Recall, F1
 from creme import stream
 import argparse
 
@@ -32,13 +32,22 @@ model = Pipeline(
 
 
 print("[INFO] starting training...")
-metric = Accuracy()
+metric_1 = Accuracy()
+metric_2 = Precision()
+metric_3 = Recall()
+metric_4 = F1()
 
 for (i, (X, y)) in enumerate(dataset):
 	preds = model.predict_one(X)
 	model = model.fit_one(X, y)
-	metric = metric.update(y, preds)
-	print("INFO] update {} - {}".format(i, metric))
+	metric_1 = metric_1.update(y, preds)
+	metric_2 = metric_2.update(y, preds)
+	metric_3 = metric_3.update(y, preds)
+	metric_4 = metric_4.update(y, preds)
+	print("[INFO] update {} - {}, {}, {}, {}".format(i, metric_1, metric_2, metric_3, metric_4))
 
-
-print("[INFO] final - {}".format(metric))
+print()
+print("[INFO] final Accuracy - {}".format(metric_1))
+print("[INFO] final Precision - {}".format(metric_2))
+print("[INFO] final Recall - {}".format(metric_3))
+print("[INFO] final F1 - {}".format(metric_4))
